@@ -1,0 +1,140 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{dirtytalk}
+\usepackage{colortbl}
+\usepackage{float} % Pacote para a para posicionar imagens com H
+
+\title{\textbf{Tutorial Ferramenta de Aprendizado de Sistemas de Potência}}
+\author{Milton's boys}
+\begin{document}
+
+\maketitle
+
+\section{ESE- Uma Breve Introdução}
+
+A Estimação de Estado é por vezes de difícil compreensão  por parte de estudantes e profissionais da área de sistemas elétricos de potência. Isso decorre da pouca abordagem desse tópico nas disciplinas convencionais dos cursos de Engenharia Elétrica, juntamente à falta de material didático disponível. Cientes dessa realidade a ESE foi desenvolvida com o intuito de proporcionar um ambiente de simulação que facilite o ensino da estimação de estado e dos demais conceitos e desdobramentos relacionados a ela. 
+
+\subsection{Opções do Cabeçalho da Página}
+A Ferramenta de aprendizado foi desenvolvida pelo grupo de pesquisa do instituto de computação da UFF, com área de atuação em Computação Científica aplicada a sistemas de potência.
+O link para a pagina do professor Milton Brown, orientador deste projeto,  encontra-se disponível no botão \textcolor{red}{(1)} da página da ferramenta.
+
+Para garantir um acesso mais amplo à ferramenta, estão disponíveis na parte superior da página as opções que alteram o idioma de todos os seus ambientes . Atualmente, estão disponíveis para a seleção as opções português e inglês.
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=.4]{Imagens/Topo_pagina.png}
+\caption{Opções de seleção de módulos da ESE}
+\label{fig:opções_cabeçalio}
+\end{figure}
+
+
+
+A ferramenta foi dividida em módulos para proporcionar uma facilidade de uso e de desenvolvimento contínuo, conforme pode ser visto na Figura \ref{fig:opções_cabeçalio}. De maneira geral foram criados cinco módulos funcionais, sendo estes:
+\begin{enumerate}
+    \item \textbf{Visão Geral da Ferramenta:} Apresenta uma visão global da ferramenta, com uma breve descrição sobre utilidade da Estimação de Estado em sistemas elétricos de potência. Adicionalmente, são brevemente descritas as funcionalidades da ferramenta;
+    \item \textbf{Estimação de Estado:} Função que recebe a topologia e parâmetros da rede, juntamente com um plano de medições e obtém o estado mais provável (módulo e ângulo das tensões nas barras). Nessa função também são realizadas as análises de observabilidade, criticalidade e a avaliação dos resíduos normalizados;
+    \item \textbf{Fluxo de Potência:} Função que recebe os dados de topologia e parâmetros da rede, além dos dados das barras da rede (cargas). Os resultados desse fluxo de potência podem ser exportados como um arquivo de medidas para ser utilizado posteriormente na função de estimação;
+    \item \textbf{Estimador de Estado com Capacidade de Previsão:}Fornecerá os valores previstos para o estado/medidas a serem usados para a construção de uma etapa de validação a priori (análise de inovações) dos valores de medidas recebidas para processamento.;
+    \item \textbf{Estimador de Estado na Distribuição:} Tratará o problema da estimação de estado em sistemas de distribuição com tratamento trifásico e diante da escassez de medidas.;
+\end{enumerate}
+
+
+\section{Estimação de Estado}
+
+O módulo "Estimador de Estado" necessita para sua execução  dois arquivos base, o primeiro \textcolor{red}{(1)} é o arquivo de topologia e parâmetros da rede, já o segundo \textcolor{red}{(2)} é o arquivo com as medições e seus respectivos desvios padrão; A o botão "Executar Estimação" \textcolor{red}{(3)} só executará a estimação caso ambos arquivos tenham sido inseridos e o sistema seja observável. A Figura \ref{fig:entrada_estimação} apresenta um exemplo dos arquivos para uma rede de 3 barras.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.45]{Imagens/Entradas_Estimação_de_Estado.png}
+    \caption{Entradas do Módulo de Estimação de Estado}
+    \label{fig:entrada_estimação}
+\end{figure}
+
+\subsection{Arquivo de Topologia}
+O arquivo de topologia deve possuir extensão .xlsx e deve apresentar o cabeçalho de acordo com a Figura \ref{fig:arq_top}. As primeiras colunas (de e para) dizem respeito às extremidades das linhas de transmissão presentes na rede. A demais colunas informam os valores em p.u dos parâmetros das linhas, onde \say{R} significa resistência, \say{X} é a reatância, \say{C} é a capacitância \textit{shunt} completa da linha e por fim o \say{Tap} indica a relação de transformação no caso de transformadores.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.7]{Imagens/Foto_Arquivo de_Topologia.JPG}
+    \caption{Entradas do Módulo de Estimação de Estado}
+    \label{fig:arq_top}
+\end{figure}
+\subsection{Arquivo de Medidas}
+Esse arquivo também deve possuir a extensão .xlsx, além dos respectivos cabeçalhos apresentados na Figura \ref{fig:arq_meds}. A princípio, pode-se incluir no arquivo medidas de potência ativa (P), reativa (Q) e de módulo de tensão (V).
+As colunas \say{De} e \say{Para} com valores indicam que a medida é de fluxo de potência. 
+Caso seja uma medida de injeção  a terceira coluna deve possuir um traço, assim como no caso de medida de módulo de tensão. Por fim, as colunas \say{Valor} e \say{Desvio Padrão} correspondem aos valores em p.u das medidas e seus respectivos desvios.   
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.7]{Imagens/Foto_Arquivo_de_Medidas.JPG}
+    \caption{Entradas do Módulo de Estimação de Estado}
+    \label{fig:arq_meds}
+\end{figure}
+
+\subsection{Botão de Estimação}
+Com os arquivos selecionados é indispensável que o usuário pressione o botão "Executar Estimação" para prosseguir. Se tudo estiver correto o processo seguirá e os resultados serão apresentados, caso contrário o programa apresentará uma mensagem de alerta sobre não-observabilidade da rede, conforme a Figura \ref{fig:Pop_obs}. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = .7]{Imagens/Pop-up_Observabilidade.JPG}
+    \caption{Mensagem de erro para rede não observável}
+    \label{fig:Pop_obs}
+\end{figure}
+
+\subsection{Representação Topológica}
+Após a inserção dos arquivos de topologia e das medidas, o ESE apresenta uma representação topológica da rede \textcolor{red}{(1)}, conforme a Figura \ref{fig::topology}. Além de proporcionar uma visão global da rede simulada é possível interagir com a figura da rede, com a possibilidade de movimentar as barras, reorganizar as linhas e aproximar a imagem para uma melhor visualização da rede.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = .55]{Imagens/Representação_Topologica.png}
+    \caption{Representação topológica.}
+    \label{fig::topology}
+\end{figure}
+
+Clicar nos elementos das redes (barras ou linhas) resultará na mudança de cor do item selecionado para destacá-lo dos demais, como também, habilitará uma tabela editável \textcolor{red}{(2)} que contém as medidas presentes no elemento, que permitirá mudanças nos seus valores, além de novas inserções. Essas possibilidades serão abordadas nas seções subsequentes. 
+
+\subsection{Análise de Criticalidades}
+\begin{figure}
+    \centering
+    \includegraphics[scale = .65]{Imagens/Criticalidades_Ferrameta.PNG}
+    \caption{Resultado de Criticalidade}
+    \label{fig:my_label}
+\end{figure}
+Com a rede observável o aplicativo é capaz de identificar as medidas e duplas críticas presentes no plano de medição. Em relação às duplas críticas, aquelas que fazem parte de um mesmo conjunto crítico são destacadas com uma mesma cor. Por fim, é possível exportar esse resultado clicando-se no botão \say{Export}.
+
+\subsection{Gráfico da Função Objetivo J(x)}
+O programa apresenta a trajetória de convergência do método de Newton-Raphson, Figura \ref{fig:fobj} . Vale salientar que considera-se os \say{logaritmos} de $J(x)$ para facilitar a representação gráfica. Além disso, pode-se exportar o gráfico como imagem ou manipulá-lo para maiores detalhes.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.65]{Imagens/Função_Objetivo_Ferramenta.PNG}
+    \caption{Função Objetivo.}
+    \label{fig:fobj}
+\end{figure}
+
+\subsection{Resultado da Estimação}
+A tabela representada pela Figura \ref{fig:results_SE} indica os módulos e ângulos das tensões nos barramentos da rede. Vale ressaltar que os valores de magnitude das tensões estão em p.u e os de ângulo em graus. Assim como nas tabelas anteriores é possível exportar os resultados.  
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = .65]{Imagens/Medidas_Estimadas_Ferramenta.PNG}
+    \caption{Estado Estimado}
+    \label{fig:results_SE}
+\end{figure}
+
+\subsection{Análise de Resíduos}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = .65]{Imagens/Residuos_Normalizados_Ferramenta.PNG}
+    \caption{Medidas Filtradas}
+    \label{fig:meds_filters}
+\end{figure}
+
+\section{Fluxo de Potência}
+
+\section{Estimador com Capacidade de Previsão}
+
+\section{Estimador na Distribuição}
+
+
+\end{document}
