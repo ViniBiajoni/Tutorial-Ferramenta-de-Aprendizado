@@ -12,7 +12,7 @@
 
 \maketitle
 
-\section{ESE- Uma Breve Introdução}
+\section{ESE - Uma Breve Introdução}
 
 A Estimação de Estado é por vezes de difícil compreensão  por parte de estudantes e profissionais da área de sistemas elétricos de potência. Isso decorre da pouca abordagem desse tópico nas disciplinas convencionais dos cursos de Engenharia Elétrica, juntamente à falta de material didático disponível. Cientes dessa realidade a ESE foi desenvolvida com o intuito de proporcionar um ambiente de simulação que facilite o ensino da estimação de estado e dos demais conceitos e desdobramentos relacionados a ela. 
 
@@ -43,7 +43,10 @@ A ferramenta foi dividida em módulos para proporcionar uma facilidade de uso e 
 
 \section{Estimação de Estado}
 
-O módulo "Estimador de Estado" necessita para sua execução  dois arquivos base, o primeiro \textcolor{red}{(1)} é o arquivo de topologia e parâmetros da rede, já o segundo \textcolor{red}{(2)} é o arquivo com as medições e seus respectivos desvios padrão; A o botão "Executar Estimação" \textcolor{red}{(3)} só executará a estimação caso ambos arquivos tenham sido inseridos e o sistema seja observável. A Figura \ref{fig:entrada_estimação} apresenta um exemplo dos arquivos para uma rede de 3 barras.  
+O módulo \say{Estimador de Estado} necessita para sua execução  dois arquivos base. O primeiro deverá conter a topologia e os parâmetros da rede \textcolor{red}{(1)}, já o segundo, os valores das medições e seus respectivos desvios padrão. 
+O usuário deverá selecionar \say{\textcolor{blue}{Arraste ou Selecione o Arquivo}} para carregar ambos os arquivos de seu repositório para a página da ferramenta. 
+ A Figura \ref{fig:entrada_estimação} apresenta um exemplo da interface do programa quando são submetidas entradas referentes a um sistema de 3 barras (utilizado no decorrer deste tutorial).
+ Em sequencia serão apresentados mais detalhes sobre a formatação dos arquivos.
 
 \begin{figure}[H]
     \centering
@@ -72,7 +75,7 @@ Caso seja uma medida de injeção  a terceira coluna deve possuir um traço, ass
 \end{figure}
 
 \subsection{Botão de Estimação}
-Com os arquivos selecionados é indispensável que o usuário pressione o botão "Executar Estimação" para prosseguir. Se tudo estiver correto o processo seguirá e os resultados serão apresentados, caso contrário o programa apresentará uma mensagem de alerta sobre não-observabilidade da rede, conforme a Figura \ref{fig:Pop_obs}. 
+Com os arquivos carregados é indispensável que o usuário pressione o botão "Executar Estimação" para prosseguir com a utilização da ferramenta. Se tudo estiver correto, o processo seguirá e os resultados serão apresentados, caso contrário, o programa apresentará uma mensagem de alerta sobre não-observabilidade da rede, conforme a Figura \ref{fig:Pop_obs}. 
 
 \begin{figure}[H]
     \centering
@@ -86,24 +89,26 @@ Após a inserção dos arquivos de topologia e das medidas, o ESE apresenta uma 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = .55]{Imagens/Representação_Topologica.png}
+    \includegraphics[scale = .5]{Imagens/Representação_Topologica.png}
     \caption{Representação topológica.}
     \label{fig::topology}
 \end{figure}
 
-Clicar nos elementos das redes (barras ou linhas) resultará na mudança de cor do item selecionado para destacá-lo dos demais, como também, habilitará uma tabela editável \textcolor{red}{(2)} que contém as medidas presentes no elemento, que permitirá mudanças nos seus valores, além de novas inserções. Essas possibilidades serão abordadas nas seções subsequentes. 
+Clicar nos elementos das redes (barras ou linhas) resultará na mudança de cor do item selecionado, destacando-o dos demais. Esta seleção também habilitará uma tabela editável \textcolor{red}{(2)} que contém as medidas presentes no elemento, que permitirá mudanças nos seus valores, além de novas inserções. Essas possibilidades serão abordadas nas seções subsequentes. 
 
 \subsection{Análise de Criticalidades}
-\begin{figure}
+Após o usuário clicar em \say{Executar Estimação}, a ferramenta é capaz de identificar as medidas e duplas críticas presentes no plano de medição. Em relação às duplas críticas, aquelas que fazem parte de um mesmo conjunto crítico são destacadas com uma mesma cor. Por fim, é possível exportar esse resultado clicando-se no botão \say{Export}.
+
+\begin{figure}[H]
     \centering
     \includegraphics[scale = .65]{Imagens/Criticalidades_Ferrameta.PNG}
     \caption{Resultado de Criticalidade}
     \label{fig:my_label}
 \end{figure}
-Com a rede observável o aplicativo é capaz de identificar as medidas e duplas críticas presentes no plano de medição. Em relação às duplas críticas, aquelas que fazem parte de um mesmo conjunto crítico são destacadas com uma mesma cor. Por fim, é possível exportar esse resultado clicando-se no botão \say{Export}.
+
 
 \subsection{Gráfico da Função Objetivo J(x)}
-O programa apresenta a trajetória de convergência do método de Newton-Raphson, Figura \ref{fig:fobj} . Vale salientar que considera-se os \say{logaritmos} de $J(x)$ para facilitar a representação gráfica. Além disso, pode-se exportar o gráfico como imagem ou manipulá-lo para maiores detalhes.
+O programa apresenta a trajetória de convergência do método de Newton-Raphson, Figura \ref{fig:fobj} . Vale salientar que considera-se os \say{logaritmos} de $J(x)$ para facilitar a representação gráfica. Além disso, pode-se exportar o gráfico como imagem ou manipulá-lo para destacar regiões, etc.
 
 \begin{figure}[H]
     \centering
@@ -113,7 +118,7 @@ O programa apresenta a trajetória de convergência do método de Newton-Raphson
 \end{figure}
 
 \subsection{Resultado da Estimação}
-A tabela representada pela Figura \ref{fig:results_SE} indica os módulos e ângulos das tensões nos barramentos da rede. Vale ressaltar que os valores de magnitude das tensões estão em p.u e os de ângulo em graus. Assim como nas tabelas anteriores é possível exportar os resultados.  
+A tabela representada pela Figura \ref{fig:results_SE} indica os módulos e ângulos das tensões nos barramentos da rede obtidos pelo processo de Estimação de Estado. Vale ressaltar que os valores de magnitude das tensões estão em p.u e os de ângulo em graus. Assim como nas tabelas anteriores é possível exportar os resultados.  
 \begin{figure}[H]
     \centering
     \includegraphics[scale = .65]{Imagens/Medidas_Estimadas_Ferramenta.PNG}
@@ -121,14 +126,19 @@ A tabela representada pela Figura \ref{fig:results_SE} indica os módulos e âng
     \label{fig:results_SE}
 \end{figure}
 
-\subsection{Análise de Resíduos}
 
+\subsection{Análise de Resíduos}
+Com o estado estimado o programa constrói a tabela representada na Figura \ref{fig:meds_filters}, que apresenta os valores das medidas juntamente com seus valores estimados. Adicionalmente são calculados os desvios e os resíduos normalizados para cada uma das medições. No caso de medidas críticas os resíduos não devem ser normalizados e por isso não são representados, além disso os maiores resíduos que 3 são destacados par alertar o usuário no caso de possíveis erros grosseiros. Mais detalhes sobre esse ponto serão apresentados nas seções vindouras.
 \begin{figure}[H]
     \centering
     \includegraphics[scale = .65]{Imagens/Residuos_Normalizados_Ferramenta.PNG}
     \caption{Medidas Filtradas}
     \label{fig:meds_filters}
 \end{figure}
+
+\subsection{Adição, Remoção e Alteração de Dados de Entrada}
+Apertar enter para alterar valor
+
 
 \section{Fluxo de Potência}
 
