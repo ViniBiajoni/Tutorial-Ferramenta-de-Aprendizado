@@ -36,8 +36,8 @@ A ferramenta foi dividida em módulos para proporcionar uma facilidade de uso e 
     \item \textbf{Visão Geral da Ferramenta:} Apresenta uma visão global da ferramenta, com uma breve descrição sobre utilidade da Estimação de Estado em sistemas elétricos de potência. Adicionalmente, são brevemente descritas as funcionalidades da ferramenta;
     \item \textbf{Estimação de Estado:} Função que recebe a topologia e parâmetros da rede, juntamente com um plano de medições e obtém o estado mais provável (módulo e ângulo das tensões nas barras). Nessa função também são realizadas as análises de observabilidade, criticalidade e a avaliação dos resíduos normalizados;
     \item \textbf{Fluxo de Potência:} Função que recebe os dados de topologia e parâmetros da rede, além dos dados das barras da rede (cargas). Os resultados desse fluxo de potência podem ser exportados como um arquivo de medidas para ser utilizado posteriormente na função de estimação;
-    \item \textbf{Estimador de Estado com Capacidade de Previsão:}Fornecerá os valores previstos para o estado/medidas a serem usados para a construção de uma etapa de validação a priori (análise de inovações) dos valores de medidas recebidas para processamento.;
-    \item \textbf{Estimador de Estado na Distribuição:} Tratará o problema da estimação de estado em sistemas de distribuição com tratamento trifásico e diante da escassez de medidas.;
+    \item \textbf{Estimador de Estado com Capacidade de Previsão:}Fornecerá os valores previstos para o estado/medidas a serem usados para a construção de uma etapa de validação a priori (análise de inovações) dos valores de medidas recebidas para processamento;
+    \item \textbf{Estimador de Estado na Distribuição:} Tratará o problema da estimação de estado em sistemas de distribuição com tratamento trifásico e diante da escassez de medidas;
 \end{enumerate}
 
 
@@ -89,7 +89,7 @@ Após a inserção dos arquivos de topologia e das medidas, o ESE apresenta uma 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = .5]{Imagens/Representação_Topologica.png}
+    \includegraphics[scale = .47]{Imagens/Representação_Topologica.png}
     \caption{Representação topológica.}
     \label{fig::topology}
 \end{figure}
@@ -112,7 +112,7 @@ O programa apresenta a trajetória de convergência do método de Newton-Raphson
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=.65]{Imagens/Função_Objetivo_Ferramenta.PNG}
+    \includegraphics[scale=.5]{Imagens/Função_Objetivo_Ferramenta.PNG}
     \caption{Função Objetivo.}
     \label{fig:fobj}
 \end{figure}
@@ -131,13 +131,74 @@ A tabela representada pela Figura \ref{fig:results_SE} indica os módulos e âng
 Com o estado estimado o programa constrói a tabela representada na Figura \ref{fig:meds_filters}, que apresenta os valores das medidas juntamente com seus valores estimados. Adicionalmente são calculados os desvios e os resíduos normalizados para cada uma das medições. No caso de medidas críticas os resíduos não devem ser normalizados e por isso não são representados, além disso os maiores resíduos que 3 são destacados par alertar o usuário no caso de possíveis erros grosseiros. Mais detalhes sobre esse ponto serão apresentados nas seções vindouras.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = .65]{Imagens/Residuos_Normalizados_Ferramenta.PNG}
+    \includegraphics[scale = .5]{Imagens/Residuos_Normalizados_Ferramenta.PNG}
     \caption{Medidas Filtradas}
     \label{fig:meds_filters}
 \end{figure}
 
 \subsection{Adição, Remoção e Alteração de Dados de Entrada}
-Apertar enter para alterar valor
+Caso o usuário deseje realizar simulações de eventos que alterem o plano de medição (ex: desligamento, alteração dos valores, inserção de erros, etc) a ferramenta possui flexibilidade para tal. O caso exemplo na sequência descreve todas as possibilidades.
+
+\subsubsection{Desligamento das Medidas}
+Seja o caso base de 3 barras apresentado anteriormente, supondo que o usuário deseje desligar medida a medida $P_{1-3}$. Utilizando a Ferramenta Educacional esta ação pode ser realizada através da caixa de seleção da tabela referente ao arquivo de medidas, como está ilustrado na figura \ref{fig:remov_med}. 
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.5]{Imagens/Remoção_de_medidas.PNG}
+    \caption{Remoção de medidas pelo arquivo de entrada}
+    \label{fig:remov_med}
+\end{figure}
+
+A Remoção de medidas também pode ser realizada na interface da topologia da rede. Para isso, o usuário precisa selecionar o elemento da rede onde encontra-se a medida e, na sequência, desmarcar a opção da caixa de seleção referente à medida desejada. A figura \ref{fig:remov_med_top} ilustra a remoção da medida $P_{1-3}$ (fluxo ativo do ramo [1-3]) através da interface topológica.
+Esta opção de remoção torna-se vantajosa para redes de maior porte, onde um foco em regiões da rede pode ser desejado.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.45]{Imagens/Remoção_de_medidas_Topologia.PNG}
+    \caption{Remoção de medidas pela opção interface da topologia da rede}
+    \label{fig:remov_med_top}
+\end{figure}
+
+
+
+\subsubsection{Adição de Novas Medidas}
+Caso o usuário deseje inserir novas medições existem duas possibilidades. A primeira delas é alterar o arquivo de medidas e recarregá-lo na ferramenta. Essa opção é mais trabalhosa e é indicada quando muitas inserções serão realizadas. Em contrapartida, quando deseja-se inserir um pequeno conjunto de medidas é possível fazer uso da representação topológica. Para tal o usuário deve clicar nas barras ou linhas em que se deseja inserir as novas medidas \textcolor{red}{(1)}. Após clicar na caixa de seleção, e adicionar o valor e o desvio padrão desejados \textcolor{red}{(2)}, é indispensável que o usuário clique em "Salvar Alterações" \textcolor{red}{(3)}. Como pode ser visto na Figura \ref{fig:add_val_confirm}, a inserção pode ser conferida observando-se a tabela de medidas \textcolor{red}{(4)}.  
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.45]{Imagens/Adição_de_medidas.png}
+    \caption{Adição de medidas no plano de medição pela interface topológica}
+    \label{fig:add_val}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.45]{Imagens/Confirmação_Adição_de_medidas.png}
+    \caption{Valor alterado na Tabela de entrada de medidas}
+    \label{fig:add_val_confirm}
+\end{figure}
+
+\subsubsection{Alteração de Valores}
+Suponhamos agora que se deseje realizar a alteração de grandezas do arquivo de medidas. Nesse caso não há a necessidade de alterar o arquivo base, mas basta o usuário clicar na célula (ou células) que se deseja alterar, digitar o novo valor e \textbf{pressionar a tecla "ENTER"} para confirmar a alteração. Destaca-se que é necessário, sempre que houver modificações, que o usuário \textbf{clique no botão "EXECUTAR ESTIMAÇÃO"}.
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=.70]{Imagens/Alteração_de_valor.PNG}
+    \caption{Alteração de valores diretamente na tabela de entrada}
+    \label{fig:alt_vaç}
+\end{figure}
+
+Adicionalmente, para sistemas de maiores dimensões, pode-se desejar alterar medidas de regiões específicas da rede. Para tal é possível utilizar o grafo da rede e clicando-se nos elementos deste alterar os valores na tabela que surgirá após o clique. Essa situação está representada na Fig. \ref{fig:alt_top}. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = .7]{Imagens/Alteração_pelo_Grafo.PNG}
+    \caption{Alteração de valores na topologia da rede}
+    \label{fig:alt_top}
+\end{figure}
 
 
 \section{Fluxo de Potência}
